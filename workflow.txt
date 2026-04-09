@@ -60,7 +60,67 @@ WORKFLOW 2: Narrow My Project (Guided Decision Flow)
 [Branch: workflow-2]
 ----------------------------------------------------------------
 
-[To be filled]
+Description:
+This workflow covers the guided decision-making flow where a
+student answers a short questionnaire and the system uses
+rule-based logic to recommend the most suitable project ideas.
+
+Step-by-Step:
+
+1. User lands on the ProjectCompass homepage.
+2. User clicks the "Narrow My Project" call-to-action button.
+   (Alternatively, user navigates to it from the top navbar.)
+3. The system opens the Guided Flow page with a 5-step form.
+4. A progress bar at the top shows current step out of 5.
+
+   Step 1 - Skill Level:
+   User selects one of:
+   - Beginner (learning fundamentals, few projects done)
+   - Intermediate (comfortable with basics, a few projects done)
+   - Advanced (strong foundation, built production-like apps)
+
+   Step 2 - Area of Interest:
+   User selects one category they are most interested in:
+   - Web Apps / Mobile Apps / AI & ML /
+     Systems & Tools / Data Projects / Social Impact
+
+   Step 3 - Time Availability:
+   User selects their weekly time commitment:
+   - Low (less than 6 hrs/week)
+   - Medium (6 to 12 hrs/week)
+   - High (more than 12 hrs/week)
+
+   Step 4 - Solo or Team:
+   User selects:
+   - Solo (building alone)
+   - Team (2 to 4 members)
+
+   Step 5 - Primary Goal:
+   User selects:
+   - Learning (deepen understanding of a technology)
+   - Portfolio (showcase work to future employers)
+
+5. After the final selection, the system applies deterministic
+   rule-based filtering logic:
+   - Hard rejects projects beyond the user's skill level
+   - Removes projects that exceed time availability
+   - Scores remaining projects by category match and difficulty
+     alignment
+   - Sorts results by match score (highest first)
+
+6. The system displays up to 6 recommended project cards.
+7. If a scope risk is detected (e.g. large project + low time),
+   a warning banner is shown at the top of results.
+8. User browses the recommended projects.
+9. User clicks a project card to view its full detail page.
+10. If unsatisfied, user clicks "Start Over" to redo the flow.
+
+Key Features Used:
+- Guided 5-step questionnaire
+- Rule-based filtering (no AI)
+- Scope warning system
+- Results page with filtered project cards
+- Project Detail Page
 
 ----------------------------------------------------------------
 WORKFLOW 3: Admin - Manage Project Ideas
