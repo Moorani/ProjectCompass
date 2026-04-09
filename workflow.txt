@@ -21,7 +21,71 @@ WORKFLOW 3: Admin - Manage Project Ideas
 [Branch: workflow-3]
 ----------------------------------------------------------------
 
-[To be filled]
+Description:
+This workflow covers how an admin user logs into the admin
+panel and manages the project idea database by adding, editing,
+or deleting entries.
+
+Step-by-Step:
+
+1. Admin clicks the "Admin" badge in the top navigation bar.
+2. The system navigates to the Admin Login page.
+3. Admin enters their username and password credentials.
+4. On successful login, the system navigates to the Admin
+   Dashboard.
+5. The dashboard sidebar shows two sections:
+   - Overview (stats and category breakdown)
+   - Projects (manage all project entries)
+
+   --- Overview Tab ---
+6. Admin views summary statistics:
+   - Total number of projects
+   - Number of categories
+   - Count of Beginner / Intermediate / Advanced projects
+7. Admin views a visual bar chart showing projects per category.
+
+   --- Projects Tab ---
+8. Admin clicks "Projects" in the sidebar.
+9. A table lists all existing projects with columns:
+   - Title, Category, Difficulty, Estimated Effort, Actions
+10. To ADD a project:
+    a. Admin clicks the "+ Add Project" button.
+    b. A modal form opens.
+    c. Admin fills in all required fields:
+       - Title
+       - Category (dropdown)
+       - Difficulty (dropdown)
+       - Estimated Effort
+       - Tech Stack (comma-separated)
+       - Short Description
+       - Problem Statement
+       - Target Users
+       - Core Features (one per line)
+       - What NOT to Build (one per line)
+       - Optional Extensions (one per line)
+    d. Admin clicks "Add Project".
+    e. The new project appears in the table and on the site.
+
+11. To EDIT a project:
+    a. Admin clicks the "Edit" button next to any project row.
+    b. The same modal opens, pre-filled with existing data.
+    c. Admin modifies desired fields and clicks "Save Changes".
+    d. Changes are reflected immediately across the platform.
+
+12. To DELETE a project:
+    a. Admin clicks the "Delete" button next to a project row.
+    b. The project is removed from the table and the platform.
+
+13. Admin clicks "Log out" in the sidebar to end the session.
+
+Key Features Used:
+- Admin Login with credential validation
+- Admin Dashboard with stats overview
+- Project management table (view all)
+- Add Project modal form
+- Edit Project modal form
+- Delete Project functionality
+- Session logout
 
 ================================================================
 END OF WORKFLOW DOCUMENTATION
