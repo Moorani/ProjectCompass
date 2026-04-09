@@ -7,7 +7,53 @@ WORKFLOW 1: Browse & Explore Project Ideas
 [Branch: workflow-1]
 ----------------------------------------------------------------
 
-[To be filled]
+Description:
+This workflow covers how a student user browses and explores
+available software project ideas through the platform without
+any prior filtering or preferences.
+
+Step-by-Step:
+
+1. User lands on the ProjectCompass homepage.
+2. The homepage displays a brief problem statement explaining
+   why choosing a project is difficult for students.
+3. User reads the short "How it Works" section on the homepage.
+4. User clicks the "Explore Project Ideas" call-to-action button.
+5. The system navigates the user to the Project Categories page.
+6. User sees all 6 categories listed:
+   - Web Applications
+   - Mobile Applications
+   - AI / ML Projects
+   - Systems & Tools
+   - Data-Driven Projects
+   - Social Impact Projects
+7. User optionally uses the search bar to type a keyword
+   (e.g. "budget", "React", "beginner").
+8. User optionally applies filters:
+   - Filter by Difficulty (Beginner / Intermediate / Advanced)
+   - Filter by Category
+   - Filter by Tech Stack
+9. The page dynamically updates to show matching project cards.
+10. User clicks on a project card of interest.
+11. The system navigates to the Project Detail Page for that idea.
+12. User reads the full brief:
+    - Problem Statement
+    - Target Users
+    - Core Features (minimum scope)
+    - What NOT to Build
+    - Optional Extensions
+    - Suggested Tech Stack
+    - Estimated Effort
+13. If the project suits them, the user notes it down or
+    begins planning.
+14. User can click "Back to Projects" to continue browsing.
+
+Key Features Used:
+- Homepage with CTA
+- Project Categories Page
+- Search and Filter System
+- Project Cards
+- Project Detail Page
 
 ----------------------------------------------------------------
 WORKFLOW 2: Narrow My Project (Guided Decision Flow)
