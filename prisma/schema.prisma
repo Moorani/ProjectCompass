@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  icon        String?
+  description String?
+  projects    Project[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Project {
+  id           Int      @id @default(autoincrement())
+  title        String
+  description  String
+  problem      String
+  targetUsers  String
+  difficulty   String
+  effort       String
+  stack        String[]
+  coreFeatures String[]
+  notBuild     String[]
+  extensions   String[]
+  categoryId   Int
+  category     Category @relation(fields: [categoryId], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
