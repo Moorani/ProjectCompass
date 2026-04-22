@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const projectService = require('../services/projectService');
+const { protect } = require('../middleware/authMiddleware');
 
 router.get('/', async (req, res) => {
   try {
@@ -23,7 +24,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', protect, async (req, res) => {
   try {
     const required = ['title', 'description', 'problem', 'targetUsers', 'difficulty', 'effort', 'categoryId'];
     for (const field of required) {
@@ -38,7 +39,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', protect, async (req, res) => {
   try {
     const project = await projectService.updateProject(req.params.id, req.body);
     res.json({ success: true, data: project });
@@ -47,7 +48,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', protect, async (req, res) => {
   try {
     await projectService.deleteProject(req.params.id);
     res.json({ success: true, message: 'Project deleted successfully' });
