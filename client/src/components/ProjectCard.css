@@ -1,0 +1,146 @@
+/* ── Card Base ────────────────────────────────────────────── */
+.project-card {
+  background: #f5f2ed;
+  border: 1px solid #dcd7d0;
+  border-radius: var(--radius-lg);
+  padding: 1.4rem 1.5rem 1.25rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--spicy-paprika), transparent);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.project-card:hover {
+  border-color: var(--spicy-paprika);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
+}
+
+.project-card:hover::before {
+  opacity: 1;
+}
+
+/* ── Card Top ─────────────────────────────────────────────── */
+.project-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.project-card-title {
+  font-family: var(--font-body);
+  font-size: 0.97rem;
+  font-weight: 700;
+  color: var(--carbon-black);
+  line-height: 1.4;
+  flex: 1;
+  letter-spacing: -0.01em;
+}
+
+/* ── Description ──────────────────────────────────────────── */
+.project-card-desc {
+  font-size: 0.84rem;
+  color: var(--charcoal-brown);
+  line-height: 1.65;
+  opacity: 0.85;
+  flex: 1;
+}
+
+/* ── Footer Row ───────────────────────────────────────────── */
+.project-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+/* ── Tags ─────────────────────────────────────────────────── */
+.tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.25rem 0.6rem;
+  background: #e4dfd8;
+  color: var(--charcoal-brown);
+  border-radius: 20px;
+  border: 1px solid #d0cbc3;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.project-card:hover .tag {
+  background: #dbd5cd;
+}
+
+/* ── Effort ───────────────────────────────────────────────── */
+.project-card-effort {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--charcoal-brown);
+  opacity: 0.6;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.effort-icon {
+  font-size: 0.85rem;
+}
+
+/* ── Badges ───────────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 0.28rem 0.65rem;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.badge-beginner {
+  background: #d6ede2;
+  color: #2d7a52;
+  border: 1px solid #b8dece;
+}
+
+.badge-intermediate {
+  background: #fef0d6;
+  color: #9a6c1a;
+  border: 1px solid #f5d99a;
+}
+
+.badge-advanced {
+  background: #fde0dc;
+  color: #b93a2a;
+  border: 1px solid #f5bcb4;
+}

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
   --floral-white: #fffcf2;
@@ -14,8 +14,8 @@
   --error-light: #fde8e8;
   --warning: #b5750a;
   --warning-light: #fbf3e3;
-  --font-display: 'Playfair Display', Georgia, serif;
-  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-display: 'Barlow', sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
   --nav-h: 64px;
   --radius: 8px;
   --radius-lg: 14px;
@@ -36,11 +36,15 @@ body {
   color: var(--carbon-black);
   line-height: 1.6;
   font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3 {
   font-family: var(--font-display);
-  line-height: 1.2;
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 a {
@@ -64,6 +68,7 @@ img {
 .page-wrapper {
   padding-top: var(--nav-h);
   min-height: 100vh;
+  padding-bottom: 5rem;
 }
 
 .container {
@@ -79,7 +84,7 @@ img {
   border-radius: var(--radius);
   padding: 10px 24px;
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
   transition: background var(--transition), transform var(--transition);
   display: inline-flex;
   align-items: center;
@@ -98,7 +103,7 @@ img {
   border-radius: var(--radius);
   padding: 9px 24px;
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
   transition: all var(--transition);
   display: inline-flex;
   align-items: center;
@@ -116,6 +121,7 @@ img {
   border: none;
   color: var(--charcoal-brown);
   font-size: 0.875rem;
+  font-weight: 500;
   padding: 6px 0;
   transition: color var(--transition);
 }
@@ -127,11 +133,11 @@ img {
 .badge {
   display: inline-block;
   font-size: 0.7rem;
-  font-weight: 600;
+  font-weight: 700;
   padding: 3px 8px;
   border-radius: 4px;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
 }
 
 .badge-beginner {
@@ -156,9 +162,10 @@ img {
 .form-label {
   display: block;
   font-size: 0.82rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--charcoal-brown);
   margin-bottom: 0.35rem;
+  letter-spacing: 0.01em;
 }
 
 .form-input,
@@ -262,6 +269,7 @@ img {
 
 .tag {
   font-size: 0.72rem;
+  font-weight: 500;
   color: var(--charcoal-brown);
   background: var(--floral-white);
   border: 1px solid var(--dust-grey);

@@ -1,29 +1,74 @@
-# ProjectCompass — Backend API
+# ProjectCompass
+
+A web-based educational platform that helps students explore and narrow
+down software project ideas through structured guidance, curated content,
+and rule-based filtering.
+
+---
 
 ## Project Overview
 
-ProjectCompass is a web-based platform that helps students explore and
-narrow down software project ideas through structured guidance and
-rule-based filtering.
+Students in computer science and related fields often struggle to select
+appropriate software project ideas due to unclear scope, skill mismatch,
+and unstructured online resources. ProjectCompass solves this by offering:
 
-This repository contains the backend API built with Express.js, PostgreSQL,
-and Prisma ORM.
-
----
-
-## Tech Stack
-
-- Runtime: Node.js
-- Framework: Express.js
-- Database: PostgreSQL
-- ORM: Prisma v5
-- Environment: dotenv
+- A curated library of 14 project ideas across 6 categories
+- Guided filtering based on skill level, time, team size, and goals
+- Clear project briefs with scope boundaries, core features, and what to avoid
+- An admin panel for managing all project content
 
 ---
 
-## Prerequisites
+## Features
 
-Before running this project, make sure you have the following installed:
+### Student-Facing
+- **Homepage** — Problem statement, how it works, and two clear calls to action
+- **Categories page** — Browse all 6 categories with project counts
+- **Category detail page** — View all projects within a category with filters
+- **Explore page** — Search and filter all projects by difficulty, category, and tech stack
+- **Project detail page** — Full brief with breadcrumb, tech stack, core features,
+  what not to build, and optional extensions
+- **Narrow My Project** — 5-step guided quiz with rule-based filtering and results page
+- **Authentication** — Register and login for admin access
+
+### Admin-Facing
+- **Dashboard overview** — Stats cards, category bar chart, difficulty breakdown,
+  recent projects table
+- **Manage projects** — View, search, filter, add, edit, and delete all projects
+- **Manage categories** — View, add, edit, and delete all categories
+- **Protected routes** — All admin pages require a valid JWT token
+
+---
+
+## Frameworks and Libraries Used
+
+### Frontend
+| Tool | Purpose |
+|------|---------|
+| React 18 | UI framework |
+| Vite | Build tool and dev server |
+| React Router v6 | Client-side routing |
+| Axios | HTTP client for API calls |
+| Google Fonts (Playfair Display, DM Sans) | Typography |
+
+### Backend
+| Tool | Purpose |
+|------|---------|
+| Node.js | Runtime |
+| Express.js | Web framework |
+| Prisma v5 | ORM for database access |
+| PostgreSQL | Relational database |
+| bcryptjs | Password hashing |
+| jsonwebtoken | JWT authentication |
+| dotenv | Environment variable management |
+| cors | Cross-origin resource sharing |
+| nodemon | Development auto-restart |
+
+---
+
+## Setup Instructions
+
+### Prerequisites
 
 - Node.js v18 or higher
 - PostgreSQL v14 or higher
@@ -31,76 +76,173 @@ Before running this project, make sure you have the following installed:
 
 ---
 
-## Setup Instructions
-
-### 1. Clone the repository
+### Step 1 — Clone the repository
 
 ```bash
-git clone https://github.com/Moorani/ProjectCompass.git
+git clone https://github.com/YOUR_USERNAME/ProjectCompass.git
 cd ProjectCompass
 ```
 
-### 2. Install dependencies
+---
+
+### Step 2 — Set up the backend
+
+Install backend dependencies:
 
 ```bash
 npm install
 ```
 
-### 3. Create the PostgreSQL database
+Create a `.env` file in the root directory:
 
-Open pgAdmin or psql and run:
+DATABASE_URL="postgresql://postgres:YOUR_PASSWORD@localhost:5432/projectcompass"
+PORT=3000
+JWT_SECRET=projectcompass_secret_key_2024
+
+Replace `YOUR_PASSWORD` with your actual PostgreSQL password.
+
+---
+
+### Step 3 — Set up the database
+
+Open pgAdmin or psql and create the database:
 
 ```sql
 CREATE DATABASE projectcompass;
 ```
 
-### 4. Create the .env file
-
-Create a file named `.env` in the root directory and add:
-
-DATABASE_URL="postgresql://postgres:YOUR_PASSWORD@localhost:5432/projectcompass"
-PORT=3000
-
-Replace `YOUR_PASSWORD` with your actual PostgreSQL password.
-
-### 5. Run Prisma migration
+Run Prisma migrations to create the tables:
 
 ```bash
 npx prisma migrate dev --name init
 ```
 
-### 6. Generate Prisma client
+Generate the Prisma client:
 
 ```bash
 npx prisma generate
 ```
 
-### 7. Start the development server
+---
+
+### Step 4 — Seed the database
+
+```bash
+npm run seed
+```
+
+This creates:
+- 1 admin user: `admin@projectcompass.com` / `admin123`
+- 6 categories
+- 14 curated project ideas
+
+---
+
+### Step 5 — Start the backend server
 
 ```bash
 npm run dev
 ```
 
-The server will start at: `http://localhost:3000`
+Backend runs at: `http://localhost:3000`
+
+---
+
+### Step 6 — Set up the frontend
+
+In a new terminal, navigate to the client folder:
+
+```bash
+cd client
+npm install
+```
+
+Create a `.env` file inside the `client` folder:
+VITE_API_URL=http://localhost:3000/api
+
+---
+
+### Step 7 — Start the frontend
+
+```bash
+npm run dev
+```
+
+Frontend runs at: `http://localhost:5173`
+
+---
+
+### Step 8 — Open the application
+
+Open your browser and go to:
+http://localhost:5173
+
+To access the admin dashboard, go to `/login` and use:
+- Email: `admin@projectcompass.com`
+- Password: `admin123`
 
 ---
 
 ## Project Structure
 ProjectCompass/
 ├── src/
-│   ├── index.js                  Express server entry point
+│   ├── index.js                        Express server entry point
 │   ├── prisma/
-│   │   └── client.js             Shared Prisma client instance
+│   │   └── client.js                   Shared Prisma client instance
 │   ├── routes/
-│   │   ├── projectRoutes.js      CRUD routes for /api/projects
-│   │   └── categoryRoutes.js     CRUD routes for /api/categories
-│   └── services/
-│       ├── projectService.js     Business logic for Project model
-│       └── categoryService.js    Business logic for Category model
+│   │   ├── authRoutes.js               POST /api/auth/login, /api/auth/register
+│   │   ├── projectRoutes.js            CRUD routes for /api/projects
+│   │   └── categoryRoutes.js           CRUD routes for /api/categories
+│   ├── services/
+│   │   ├── authService.js              Registration and login logic
+│   │   ├── projectService.js           Project business logic
+│   │   └── categoryService.js          Category business logic
+│   └── middleware/
+│       └── authMiddleware.js           JWT verification middleware
 ├── prisma/
-│   ├── schema.prisma             Database schema
-│   └── migrations/               Auto-generated migration files
-├── .env                          Environment variables (not committed)
+│   ├── schema.prisma                   Database schema
+│   ├── seed.js                         Database seed script
+│   └── migrations/                     Auto-generated migration files
+├── client/
+│   ├── src/
+│   │   ├── App.jsx                     Route definitions
+│   │   ├── main.jsx                    React entry point
+│   │   ├── index.css                   Global styles and design tokens
+│   │   ├── api/
+│   │   │   └── api.js                  Axios instance and all API calls
+│   │   ├── context/
+│   │   │   └── AuthContext.jsx         Auth state and JWT management
+│   │   ├── components/
+│   │   │   ├── layout/
+│   │   │   │   ├── Navbar.jsx
+│   │   │   │   └── Navbar.css
+│   │   │   ├── Footer.jsx
+│   │   │   ├── Footer.css
+│   │   │   ├── ProjectCard.jsx
+│   │   │   ├── ProjectCard.css
+│   │   │   └── ProtectedRoute.jsx
+│   │   └── pages/
+│   │       ├── HomePage.jsx / .css
+│   │       ├── CategoriesPage.jsx / .css
+│   │       ├── CategoryDetailPage.jsx / .css
+│   │       ├── ExplorePage.jsx / .css
+│   │       ├── ProjectDetailPage.jsx / .css
+│   │       ├── NarrowPage.jsx / .css
+│   │       ├── LoginPage.jsx
+│   │       ├── RegisterPage.jsx
+│   │       ├── AuthPages.css
+│   │       ├── NotFoundPage.jsx
+│   │       └── admin/
+│   │           ├── AdminLayout.jsx / .css
+│   │           ├── AdminOverview.jsx / .css
+│   │           ├── AdminProjects.jsx
+│   │           ├── AdminCategories.jsx
+│   │           ├── AdminTable.css
+│   │           ├── ProjectFormModal.jsx
+│   │           └── ProjectFormModal.css
+│   ├── .env                            Frontend environment variables
+│   └── package.json
+├── .env                                Backend environment variables
 ├── .gitignore
 ├── package.json
 └── README.md
@@ -109,319 +251,59 @@ ProjectCompass/
 
 ## API Endpoints
 
-### Base URL
-http://localhost:3000
+### Authentication
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|---------------|
+| POST | /api/auth/register | Create new admin account | No |
+| POST | /api/auth/login | Login and receive JWT token | No |
 
-### Health Check
+### Projects
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|---------------|
+| GET | /api/projects | List all projects (supports filters) | No |
+| GET | /api/projects/:id | Get single project with category | No |
+| POST | /api/projects | Create new project | Yes |
+| PUT | /api/projects/:id | Update existing project | Yes |
+| DELETE | /api/projects/:id | Delete a project | Yes |
 
-| Method | URL | Description |
-|--------|-----|-------------|
-| GET | / | Check if API is running |
+### Categories
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|---------------|
+| GET | /api/categories | List all categories with projects | No |
+| GET | /api/categories/:id | Get single category with projects | No |
+| POST | /api/categories | Create new category | Yes |
+| PUT | /api/categories/:id | Update existing category | Yes |
+| DELETE | /api/categories/:id | Delete a category | Yes |
 
-**Response:**
-```json
-{ "message": "ProjectCompass API is running" }
-```
-
----
-
-### Projects — /api/projects
-
-#### GET /api/projects
-
-Returns all projects. Supports optional query filters.
-
-**Query parameters (all optional):**
-
+### Query Parameters for GET /api/projects
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | difficulty | string | Filter by Beginner, Intermediate, or Advanced |
 | categoryId | number | Filter by category ID |
 | search | string | Search in title and description |
 
-**Example requests:**
-GET /api/projects
-GET /api/projects?difficulty=Beginner
-GET /api/projects?categoryId=1
-GET /api/projects?search=budget
+---
 
-**Example response:**
-```json
-{
-  "success": true,
-  "count": 1,
-  "data": [
-    {
-      "id": 1,
-      "title": "Student Budget Tracker",
-      "description": "A personal finance tool for students.",
-      "problem": "Students overspend without realising it.",
-      "targetUsers": "University students.",
-      "difficulty": "Beginner",
-      "effort": "3-4 weeks",
-      "stack": ["React", "localStorage", "Chart.js"],
-      "coreFeatures": ["Add/edit/delete expense entries", "Categorise spending"],
-      "notBuild": ["Bank account sync", "Multi-currency support"],
-      "extensions": ["Export data as CSV", "Dark mode"],
-      "categoryId": 1,
-      "category": {
-        "id": 1,
-        "name": "Web Applications",
-        "icon": "globe",
-        "description": "Browser-based apps serving real user needs"
-      },
-      "createdAt": "2024-01-01T00:00:00.000Z",
-      "updatedAt": "2024-01-01T00:00:00.000Z"
-    }
-  ]
-}
-```
+## Team Contributions
+
+| Member | Role | Contributions |
+|--------|------|---------------|
+| [Your Name] | Full Stack Developer | Complete backend API, database schema, authentication system, all frontend pages and components, admin dashboard, UI design, deployment setup, and documentation |
 
 ---
 
-#### GET /api/projects/:id
+## Color Palette
 
-Returns a single project by ID.
-
-**Example request:**
-GET /api/projects/1
-
-**Example response:**
-```json
-{
-  "success": true,
-  "data": { ...project object with category... }
-}
-```
-
-**Not found response:**
-```json
-{
-  "success": false,
-  "error": "Project not found"
-}
-```
+| Variable | Hex | Usage |
+|----------|-----|-------|
+| `--floral-white` | #fffcf2 | Page backgrounds |
+| `--dust-grey` | #ccc5b9 | Borders, muted text |
+| `--charcoal-brown` | #403d39 | Body text, secondary elements |
+| `--carbon-black` | #252422 | Headings, admin sidebar |
+| `--spicy-paprika` | #eb5e28 | Primary accent, CTAs |
 
 ---
 
-#### POST /api/projects
+## License
 
-Creates a new project.
-
-**Required fields:**
-
-| Field | Type | Description |
-|-------|------|-------------|
-| title | string | Project title |
-| description | string | Short project description |
-| problem | string | Problem the project solves |
-| targetUsers | string | Who the project is for |
-| difficulty | string | Beginner, Intermediate, or Advanced |
-| effort | string | Estimated time e.g. 3-4 weeks |
-| categoryId | number | ID of an existing category |
-
-**Optional fields:**
-
-| Field | Type | Description |
-|-------|------|-------------|
-| stack | string[] | Array of technologies |
-| coreFeatures | string[] | Array of core feature descriptions |
-| notBuild | string[] | Array of out-of-scope items |
-| extensions | string[] | Array of optional extension ideas |
-
-**Example request body:**
-```json
-{
-  "title": "Student Budget Tracker",
-  "description": "A personal finance tool for students.",
-  "problem": "Students overspend without realising it.",
-  "targetUsers": "University students.",
-  "difficulty": "Beginner",
-  "effort": "3-4 weeks",
-  "stack": ["React", "localStorage", "Chart.js"],
-  "coreFeatures": ["Add/edit/delete expense entries", "Categorise spending"],
-  "notBuild": ["Bank account sync", "Multi-currency support"],
-  "extensions": ["Export data as CSV", "Dark mode"],
-  "categoryId": 1
-}
-```
-
-**Example response:**
-```json
-{
-  "success": true,
-  "data": { ...created project object... }
-}
-```
-
-**Validation error response:**
-```json
-{
-  "success": false,
-  "error": "Missing required field: title"
-}
-```
-
----
-
-#### PUT /api/projects/:id
-
-Updates an existing project. Send only the fields you want to update.
-
-**Example request body:**
-```json
-{ "effort": "3-5 weeks" }
-```
-
-**Example response:**
-```json
-{
-  "success": true,
-  "data": { ...updated project object... }
-}
-```
-
----
-
-#### DELETE /api/projects/:id
-
-Deletes a project by ID.
-
-**Example response:**
-```json
-{
-  "success": true,
-  "message": "Project deleted successfully"
-}
-```
-
----
-
-### Categories — /api/categories
-
-#### GET /api/categories
-
-Returns all categories with their associated projects.
-
-**Example response:**
-```json
-{
-  "success": true,
-  "count": 6,
-  "data": [
-    {
-      "id": 1,
-      "name": "Web Applications",
-      "icon": "globe",
-      "description": "Browser-based apps serving real user needs",
-      "projects": [...],
-      "createdAt": "2024-01-01T00:00:00.000Z",
-      "updatedAt": "2024-01-01T00:00:00.000Z"
-    }
-  ]
-}
-```
-
----
-
-#### GET /api/categories/:id
-
-Returns a single category with all its projects.
-
-**Not found response:**
-```json
-{
-  "success": false,
-  "error": "Category not found"
-}
-```
-
----
-
-#### POST /api/categories
-
-Creates a new category.
-
-**Required fields:**
-
-| Field | Type | Description |
-|-------|------|-------------|
-| name | string | Category name (must be unique) |
-
-**Optional fields:**
-
-| Field | Type | Description |
-|-------|------|-------------|
-| icon | string | Icon identifier string |
-| description | string | Category description |
-
-**Example request body:**
-```json
-{
-  "name": "Web Applications",
-  "icon": "globe",
-  "description": "Browser-based apps serving real user needs"
-}
-```
-
----
-
-#### PUT /api/categories/:id
-
-Updates an existing category. Send only the fields you want to update.
-
-**Example request body:**
-```json
-{ "description": "Updated description here" }
-```
-
----
-
-#### DELETE /api/categories/:id
-
-Deletes a category by ID.
-
-**Important:** Delete or reassign all projects in a category before
-deleting the category, otherwise the request will fail due to the
-foreign key constraint.
-
-**Example response:**
-```json
-{
-  "success": true,
-  "message": "Category deleted successfully"
-}
-```
-
----
-
-## Workflows Implemented
-
-### Workflow 1 — Browse and Explore Project Ideas
-
-Implemented via:
-- `GET /api/projects` with filters (difficulty, category, keyword search)
-- `GET /api/projects/:id` for full project detail
-- `GET /api/categories` for category listing
-
-### Workflow 3 — Admin Panel
-
-Implemented via:
-- `POST /api/projects` — admin creates a project
-- `PUT /api/projects/:id` — admin edits a project
-- `DELETE /api/projects/:id` — admin deletes a project
-- `POST /api/categories` — admin creates a category
-- `PUT /api/categories/:id` — admin edits a category
-- `DELETE /api/categories/:id` — admin deletes a category
-
----
-
-## HTTP Status Codes Used
-
-| Code | Meaning |
-|------|---------|
-| 200 | Success |
-| 201 | Created successfully |
-| 400 | Bad request, missing required field |
-| 404 | Resource not found |
-| 500 | Internal server error |
+This project was built as a course-level web development milestone project.
