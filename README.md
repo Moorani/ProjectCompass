@@ -1,8 +1,8 @@
-# ProjectCompass
+# 🧭 ProjectCompass
 
-A web-based educational platform that helps students explore and narrow
-down software project ideas through structured guidance, curated content,
-and rule-based filtering.
+A web-based educational platform that helps CS students explore, filter, and
+start software project ideas — with structured guidance, curated briefs, and
+rule-based matching.
 
 ---
 
@@ -13,56 +13,102 @@ appropriate software project ideas due to unclear scope, skill mismatch,
 and unstructured online resources. ProjectCompass solves this by offering:
 
 - A curated library of 14 project ideas across 6 categories
-- Guided filtering based on skill level, time, team size, and goals
+- A 5-step guided quiz that matches projects to your skill, time, and goals
 - Clear project briefs with scope boundaries, core features, and what to avoid
-- An admin panel for managing all project content
+- A full admin panel for managing all project and category content
 
 ---
 
-## Features
+## Live Features
 
 ### Student-Facing
-- **Homepage** — Problem statement, how it works, and two clear calls to action
-- **Categories page** — Browse all 6 categories with project counts
-- **Category detail page** — View all projects within a category with filters
+- **Homepage** — Hero section, how-it-works steps, and a guided quiz CTA
+- **Categories page** — Browse all 6 categories with live project counts and search
+- **Category detail page** — View all projects within a category with difficulty filtering
 - **Explore page** — Search and filter all projects by difficulty, category, and tech stack
-- **Project detail page** — Full brief with breadcrumb, tech stack, core features,
-  what not to build, and optional extensions
-- **Narrow My Project** — 5-step guided quiz with rule-based filtering and results page
+- **Project detail page** — Full brief with breadcrumb navigation, tech stack chips,
+  core features, what not to build, optional extensions, and a Narrow My Project CTA
+- **Narrow My Project** — 5-step guided quiz with rule-based filtering, warnings, and a results page
 - **Authentication** — Register and login for admin access
+- **Footer** — Consistent site-wide footer with navigation links and brand identity
 
 ### Admin-Facing
-- **Dashboard overview** — Stats cards, category bar chart, difficulty breakdown,
-  recent projects table
+- **Dashboard overview** — Stats cards, category bar chart, difficulty breakdown, recent projects table
 - **Manage projects** — View, search, filter, add, edit, and delete all projects
 - **Manage categories** — View, add, edit, and delete all categories
 - **Protected routes** — All admin pages require a valid JWT token
 
 ---
 
-## Frameworks and Libraries Used
+## Tech Stack
 
 ### Frontend
-| Tool | Purpose |
-|------|---------|
-| React 18 | UI framework |
-| Vite | Build tool and dev server |
-| React Router v6 | Client-side routing |
-| Axios | HTTP client for API calls |
-| Google Fonts (Playfair Display, DM Sans) | Typography |
+| Tool | Version | Purpose |
+|------|---------|---------|
+| React | 18 | UI framework |
+| Vite | Latest | Build tool and dev server |
+| React Router | v6 | Client-side routing |
+| Axios | Latest | HTTP client for API calls |
+| Google Fonts — Barlow + Inter | — | Typography |
 
 ### Backend
-| Tool | Purpose |
-|------|---------|
-| Node.js | Runtime |
-| Express.js | Web framework |
-| Prisma v5 | ORM for database access |
-| PostgreSQL | Relational database |
-| bcryptjs | Password hashing |
-| jsonwebtoken | JWT authentication |
-| dotenv | Environment variable management |
-| cors | Cross-origin resource sharing |
-| nodemon | Development auto-restart |
+| Tool | Version | Purpose |
+|------|---------|---------|
+| Node.js | v18+ | Runtime |
+| Express.js | Latest | Web framework |
+| Prisma | v5 | ORM for database access |
+| PostgreSQL | v14+ | Relational database |
+| bcryptjs | Latest | Password hashing |
+| jsonwebtoken | Latest | JWT authentication |
+| dotenv | Latest | Environment variable management |
+| cors | Latest | Cross-origin resource sharing |
+| nodemon | Latest | Development auto-restart |
+
+---
+
+## Design System
+
+### Typography
+| Role | Font | Weights Used |
+|------|------|-------------|
+| Headings (`h1–h3`) | Barlow | 700, 800, 900 |
+| Body / UI | Inter | 400, 500, 600, 700 |
+
+Barlow at weight 800–900 with tight letter-spacing (`-0.02em`) gives headings
+a clean, modern, editorial feel. Inter provides excellent legibility at all
+body and UI sizes.
+
+### Color Palette
+| Token | Hex | Usage |
+|-------|-----|-------|
+| `--floral-white` | `#fffcf2` | Page backgrounds |
+| `--dust-grey` | `#ccc5b9` | Borders, dividers, muted elements |
+| `--charcoal-brown` | `#403d39` | Body text, secondary UI |
+| `--carbon-black` | `#252422` | Headings, dark surfaces |
+| `--spicy-paprika` | `#eb5e28` | Primary accent, CTAs, active states |
+| `--paprika-dark` | `#c94e1f` | Hover state for primary buttons |
+| `--paprika-light` | `#fdf0eb` | Tinted backgrounds, eyebrow pills |
+| `--success` | `#2d6a4f` | Beginner badge, success alerts |
+| `--error` | `#a32d2d` | Advanced badge, error alerts |
+| `--warning` | `#b5750a` | Warning alerts |
+
+### Difficulty Badges
+| Level | Background | Text |
+|-------|-----------|------|
+| Beginner | `#d6ede2` | `#2d7a52` |
+| Intermediate | `#fef0d6` | `#9a6c1a` |
+| Advanced | `#fde0dc` | `#b93a2a` |
+
+### Design Patterns Used Across All Pages
+- **Hero sections** — Warm directional gradient (`140deg, #edeae2 → #ddd8ce → #cec8be`) with bottom border separator
+- **Eyebrow labels** — Pill-style uppercase labels in `spicy-paprika` with frosted white background
+- **Card hover** — `translateY(-3px)` lift, `spicy-paprika` border, `::before` top accent strip
+- **Search bar** — Full-width, leading search icon, unified box-shadow, focus highlights in `spicy-paprika`
+- **Filter labels** — Uppercase, `0.72rem`, `letter-spacing: 0.1em`, `opacity: 0.65`
+- **Results meta** — Uppercase small-caps count label above grids
+- **Empty states** — Centred icon circle, bold heading, muted subtext
+- **CTA boxes** — Dark gradient (`#2a2522 → #1a1614`) with `spicy-paprika` top accent strip
+- **Footer** — Matches CTA box dark gradient, muted nav links, paprika CTA button, difficulty badge row
 
 ---
 
@@ -76,12 +122,12 @@ and unstructured online resources. ProjectCompass solves this by offering:
 
 ---
 
-### Step 1 — Clone the repository
+### Step 1 — Clone the repository 
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/ProjectCompass.git
+git clone https://github.com/Morani/ProjectCompass.git
 cd ProjectCompass
-```
+``` 
 
 ---
 
@@ -183,7 +229,6 @@ To access the admin dashboard, go to `/login` and use:
 
 ---
 
-## Project Structure
 ProjectCompass/
 ├── src/
 │   ├── index.js                        Express server entry point
@@ -205,9 +250,9 @@ ProjectCompass/
 │   └── migrations/                     Auto-generated migration files
 ├── client/
 │   ├── src/
-│   │   ├── App.jsx                     Route definitions
+│   │   ├── App.jsx                     Route definitions and footer visibility logic
 │   │   ├── main.jsx                    React entry point
-│   │   ├── index.css                   Global styles and design tokens
+│   │   ├── index.css                   Global styles, design tokens, Barlow + Inter fonts
 │   │   ├── api/
 │   │   │   └── api.js                  Axios instance and all API calls
 │   │   ├── context/
@@ -216,9 +261,9 @@ ProjectCompass/
 │   │   │   ├── layout/
 │   │   │   │   ├── Navbar.jsx
 │   │   │   │   └── Navbar.css
-│   │   │   ├── Footer.jsx
-│   │   │   ├── Footer.css
-│   │   │   ├── ProjectCard.jsx
+│   │   │   ├── Footer.jsx              Site-wide footer component
+│   │   │   ├── Footer.css              Footer styles
+│   │   │   ├── ProjectCard.jsx         Reusable project card with badges and tags
 │   │   │   ├── ProjectCard.css
 │   │   │   └── ProtectedRoute.jsx
 │   │   └── pages/
@@ -288,21 +333,8 @@ ProjectCompass/
 
 | Member | Role | Contributions |
 |--------|------|---------------|
-| [Your Name] | Full Stack Developer | Complete backend API, database schema, authentication system, all frontend pages and components, admin dashboard, UI design, deployment setup, and documentation |
+| Sudharth Moorani  | Full Stack Developer | Complete backend API, database schema, authentication system, all frontend pages and components, admin dashboard, UI design, deployment setup, and documentation |
 
----
-
-## Color Palette
-
-| Variable | Hex | Usage |
-|----------|-----|-------|
-| `--floral-white` | #fffcf2 | Page backgrounds |
-| `--dust-grey` | #ccc5b9 | Borders, muted text |
-| `--charcoal-brown` | #403d39 | Body text, secondary elements |
-| `--carbon-black` | #252422 | Headings, admin sidebar |
-| `--spicy-paprika` | #eb5e28 | Primary accent, CTAs |
-
----
 
 ## License
 
