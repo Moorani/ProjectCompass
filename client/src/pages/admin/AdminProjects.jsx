@@ -24,7 +24,7 @@ export default function AdminProjects() {
       const [pRes, cRes] = await Promise.all([getProjects(), getCategories()]);
       setProjects(pRes.data.data || []);
       setCategories(cRes.data.data || []);
-    } catch (err) {
+    } catch {
       showToast('Failed to load data', 'error');
     } finally {
       setLoading(false);
@@ -40,9 +40,15 @@ export default function AdminProjects() {
     setTimeout(() => setToast((t) => ({ ...t, visible: false })), 2800);
   };
 
-  const handleSave = async (data) => {
+  /*
+    useCallback ensures handleSave has a stable reference across renders.
+    Without this, every render of AdminProjects passes a new function
+    reference as the onSave prop, which contributes to unnecessary
+    re-renders in ProjectFormModal.
+  */
+  const handleSave = useCallback(async (data) => {
     try {
-      if (modal.project) {
+      if (modal?.project) {
         await updateProject(modal.project.id, data);
         showToast('Project updated successfully');
       } else {
@@ -54,9 +60,13 @@ export default function AdminProjects() {
     } catch (err) {
       showToast(err.response?.data?.error || 'Something went wrong', 'error');
     }
-  };
+  }, [modal, fetchData]);
 
-  const handleDelete = async (project) => {
+  const handleCloseModal = useCallback(() => {
+    setModal(null);
+  }, []);
+
+  const handleDelete = (project) => {
     setDeleting(project);
   };
 
@@ -100,7 +110,7 @@ export default function AdminProjects() {
           project={modal.project}
           categories={categories}
           onSave={handleSave}
-          onClose={() => setModal(null)}
+          onClose={handleCloseModal}
         />
       )}
 
@@ -109,7 +119,8 @@ export default function AdminProjects() {
           <div className="confirm-box">
             <h3>Delete Project</h3>
             <p>
-              Are you sure you want to delete <strong>"{deleting.title}"</strong>?
+              Are you sure you want to delete{' '}
+              <strong>"{deleting.title}"</strong>?
               This action cannot be undone.
             </p>
             <div className="confirm-actions">
@@ -197,7 +208,9 @@ export default function AdminProjects() {
                 <tr key={p.id}>
                   <td>
                     <div className="td-title">{p.title}</div>
-                    <div className="td-desc">{p.description?.slice(0, 60)}...</div>
+                    <div className="td-desc">
+                      {p.description?.slice(0, 60)}...
+                    </div>
                   </td>
                   <td>
                     <span className="td-category">

@@ -34,12 +34,44 @@ function buildInitialForm(project, categories) {
   };
 }
 
+/*
+  Field is defined HERE, at module level, outside of ProjectFormModal.
+  This is the fix. Defining it inside the component caused React to treat
+  it as a new component type on every render, unmounting and remounting
+  the input on every keystroke, which destroyed focus each time.
+*/
+function Field({ label, name, required, value, onChange, errors, type, placeholder }) {
+  return (
+    <div className="form-group">
+      <label className="form-label">
+        {label}{required && <span style={{ color: 'var(--error)', marginLeft: '2px' }}>*</span>}
+      </label>
+      {type === 'textarea' ? (
+        <textarea
+          className={`form-textarea ${errors[name] ? 'error' : ''}`}
+          value={value}
+          onChange={(e) => onChange(name, e.target.value)}
+          placeholder={placeholder || ''}
+        />
+      ) : (
+        <input
+          className={`form-input ${errors[name] ? 'error' : ''}`}
+          value={value}
+          onChange={(e) => onChange(name, e.target.value)}
+          placeholder={placeholder || ''}
+        />
+      )}
+      {errors[name] && <span className="form-error">{errors[name]}</span>}
+    </div>
+  );
+}
+
 export default function ProjectFormModal({ project, categories, onSave, onClose }) {
   const [form, setForm] = useState(() => buildInitialForm(project, categories));
   const [errors, setErrors] = useState({});
   const [saving, setSaving] = useState(false);
 
-  const set = (key, val) => {
+  const handleChange = (key, val) => {
     setForm((f) => ({ ...f, [key]: val }));
     if (errors[key]) setErrors((e) => ({ ...e, [key]: '' }));
   };
@@ -79,30 +111,6 @@ export default function ProjectFormModal({ project, categories, onSave, onClose 
     setSaving(false);
   };
 
-  const Field = ({ label, name, required, type = 'input', placeholder = '' }) => (
-    <div className="form-group">
-      <label className="form-label">
-        {label} {required && <span style={{ color: 'var(--error)' }}>*</span>}
-      </label>
-      {type === 'textarea' ? (
-        <textarea
-          className={`form-textarea ${errors[name] ? 'error' : ''}`}
-          value={form[name]}
-          onChange={(e) => set(name, e.target.value)}
-          placeholder={placeholder}
-        />
-      ) : (
-        <input
-          className={`form-input ${errors[name] ? 'error' : ''}`}
-          value={form[name]}
-          onChange={(e) => set(name, e.target.value)}
-          placeholder={placeholder}
-        />
-      )}
-      {errors[name] && <span className="form-error">{errors[name]}</span>}
-    </div>
-  );
-
   return (
     <div className="pf-backdrop" onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className="pf-modal">
@@ -110,59 +118,79 @@ export default function ProjectFormModal({ project, categories, onSave, onClose 
           <div>
             <h3>{project ? 'Edit Project' : 'Add New Project'}</h3>
             <p className="pf-header-sub">
-              {project ? 'Update the project details below.' : 'Fill in the details to add a new project to the platform.'}
+              {project
+                ? 'Update the project details below.'
+                : 'Fill in the details to add a new project to the platform.'}
             </p>
           </div>
           <button className="pf-close" onClick={onClose} title="Close">&times;</button>
         </div>
 
         <form className="pf-body" onSubmit={handleSubmit}>
+
           <div className="pf-section">
             <div className="pf-section-title">Basic Information</div>
+
             <Field
               label="Project Title"
               name="title"
               required
+              value={form.title}
+              onChange={handleChange}
+              errors={errors}
               placeholder="e.g. Student Budget Tracker"
             />
+
             <div className="pf-row-2">
               <div className="form-group">
                 <label className="form-label">
-                  Category <span style={{ color: 'var(--error)' }}>*</span>
+                  Category<span style={{ color: 'var(--error)', marginLeft: '2px' }}>*</span>
                 </label>
                 <select
                   className={`form-select ${errors.categoryId ? 'error' : ''}`}
                   value={form.categoryId}
-                  onChange={(e) => set('categoryId', e.target.value)}
+                  onChange={(e) => handleChange('categoryId', e.target.value)}
                 >
                   <option value="">Select a category...</option>
                   {categories.map((c) => (
                     <option key={c.id} value={c.id}>{c.name}</option>
                   ))}
                 </select>
-                {errors.categoryId && <span className="form-error">{errors.categoryId}</span>}
+                {errors.categoryId && (
+                  <span className="form-error">{errors.categoryId}</span>
+                )}
               </div>
+
               <div className="form-group">
                 <label className="form-label">Difficulty</label>
                 <select
                   className="form-select"
                   value={form.difficulty}
-                  onChange={(e) => set('difficulty', e.target.value)}
+                  onChange={(e) => handleChange('difficulty', e.target.value)}
                 >
-                  {DIFFICULTIES.map((d) => <option key={d}>{d}</option>)}
+                  {DIFFICULTIES.map((d) => (
+                    <option key={d}>{d}</option>
+                  ))}
                 </select>
               </div>
             </div>
+
             <div className="pf-row-2">
               <Field
                 label="Estimated Effort"
                 name="effort"
                 required
+                value={form.effort}
+                onChange={handleChange}
+                errors={errors}
                 placeholder="e.g. 3–4 weeks"
               />
               <Field
                 label="Tech Stack (comma-separated)"
                 name="stack"
+                value={form.stack}
+                onChange={handleChange}
+                errors={errors}
                 placeholder="React, Node.js, PostgreSQL"
               />
             </div>
@@ -170,11 +198,15 @@ export default function ProjectFormModal({ project, categories, onSave, onClose 
 
           <div className="pf-section">
             <div className="pf-section-title">Project Details</div>
+
             <Field
               label="Short Description"
               name="description"
               required
               type="textarea"
+              value={form.description}
+              onChange={handleChange}
+              errors={errors}
               placeholder="A one or two sentence overview of what this project does."
             />
             <Field
@@ -182,43 +214,68 @@ export default function ProjectFormModal({ project, categories, onSave, onClose 
               name="problem"
               required
               type="textarea"
+              value={form.problem}
+              onChange={handleChange}
+              errors={errors}
               placeholder="What real problem does this project solve? Who experiences it?"
             />
             <Field
               label="Target Users"
               name="targetUsers"
               required
+              value={form.targetUsers}
+              onChange={handleChange}
+              errors={errors}
               placeholder="e.g. University students managing a monthly allowance"
             />
           </div>
 
           <div className="pf-section">
             <div className="pf-section-title">Scope Definition</div>
+
             <Field
               label="Core Features (one per line)"
               name="coreFeatures"
               type="textarea"
-              placeholder={`Add/edit/delete expense entries\nCategorise spending by type\nMonthly budget limits`}
+              value={form.coreFeatures}
+              onChange={handleChange}
+              errors={errors}
+              placeholder={'Add/edit/delete expense entries\nCategorise spending by type\nMonthly budget limits'}
             />
             <Field
               label="What NOT to Build (one per line)"
               name="notBuild"
               type="textarea"
-              placeholder={`Bank account sync\nMulti-currency support`}
+              value={form.notBuild}
+              onChange={handleChange}
+              errors={errors}
+              placeholder={'Bank account sync\nMulti-currency support'}
             />
             <Field
               label="Optional Extensions (one per line)"
               name="extensions"
               type="textarea"
-              placeholder={`Export data as CSV\nDark mode toggle`}
+              value={form.extensions}
+              onChange={handleChange}
+              errors={errors}
+              placeholder={'Export data as CSV\nDark mode toggle'}
             />
           </div>
 
           <div className="pf-footer">
-            <button type="button" className="btn-secondary" onClick={onClose} disabled={saving}>
+            <button
+              type="button"
+              className="btn-secondary"
+              onClick={onClose}
+              disabled={saving}
+            >
               Cancel
             </button>
-            <button type="submit" className="btn-primary" disabled={saving}>
+            <button
+              type="submit"
+              className="btn-primary"
+              disabled={saving}
+            >
               {saving ? 'Saving...' : project ? 'Save Changes' : 'Add Project'}
             </button>
           </div>
