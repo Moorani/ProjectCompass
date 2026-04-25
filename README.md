@@ -229,6 +229,9 @@ To access the admin dashboard, go to `/login` and use:
 
 ---
 
+## Project Structure
+
+```
 ProjectCompass/
 ├── src/
 │   ├── index.js                        Express server entry point
@@ -291,6 +294,7 @@ ProjectCompass/
 ├── .gitignore
 ├── package.json
 └── README.md
+```
 
 ---
 
