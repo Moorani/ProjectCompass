@@ -69,7 +69,7 @@ export default function CategoryDetailPage() {
       </div>
 
       <div className="container catdetail-body">
-        <div className="catdetail-filter-bar">
+        {/* <div className="catdetail-filter-bar">
           <div className="catdetail-filter-group">
             <label className="filter-group-label">Difficulty</label>
             <select
@@ -83,7 +83,7 @@ export default function CategoryDetailPage() {
               <option value="Advanced">Advanced</option>
             </select>
           </div>
-        </div>
+        </div> */}
 
         <div className="catdetail-count">
           Showing {filtered.length} of {category.projects?.length || 0} projects
