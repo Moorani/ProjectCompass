@@ -19,7 +19,15 @@ and unstructured online resources. ProjectCompass solves this by offering:
 
 ---
 
-## Live Features
+## Live Application
+
+- **Frontend:** https://projectcompass.vercel.app
+- **Backend API:** https://projectcompass-api.onrender.com
+- **Admin login:** admin@projectcompass.com / admin123
+
+---
+
+## Live Features 
 
 ### Student-Facing
 - **Homepage** — Hero section, how-it-works steps, and a guided quiz CTA
