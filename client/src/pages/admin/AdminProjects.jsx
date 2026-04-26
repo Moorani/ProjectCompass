@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   getProjects,
   getCategories,
@@ -10,6 +11,7 @@ import ProjectFormModal from './ProjectFormModal';
 import './AdminTable.css';
 
 export default function AdminProjects() {
+  const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -40,12 +42,6 @@ export default function AdminProjects() {
     setTimeout(() => setToast((t) => ({ ...t, visible: false })), 2800);
   };
 
-  /*
-    useCallback ensures handleSave has a stable reference across renders.
-    Without this, every render of AdminProjects passes a new function
-    reference as the onSave prop, which contributes to unnecessary
-    re-renders in ProjectFormModal.
-  */
   const handleSave = useCallback(async (data) => {
     try {
       if (modal?.project) {
@@ -227,7 +223,7 @@ export default function AdminProjects() {
                     <div className="table-actions">
                       <button
                         className="tbl-btn tbl-view"
-                        onClick={() => window.open(`/project/${p.id}`, '_blank')}
+                        onClick={() => navigate(`/project/${p.id}`)}
                         title="View on site"
                       >
                         View
